@@ -1,0 +1,20 @@
+﻿{
+  "version": "1.0.0-*",
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+  "frameworks": {
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Xml": ""
+      }
+    },
+    "netstandardapp1.5": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "NETStandard.Library": "1.0.0-*",
+        "System.Xml.ReaderWriter": "4.0.11-*"
+      }
+    }
+  }
+}
