@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25104.0
+VisualStudioVersion = 14.0.25114.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FB57D9E7-609D-4378-8F85-DE799C09A8C7}"
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestInsights.Reporter", "src\TestInsights.Reporter\TestInsights.Reporter.xproj", "{5CBD4592-E162-40C9-9FF7-70A67D52CF14}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestInsights.Xunit", "src\TestInsights.Xunit\TestInsights.Xunit.xproj", "{5CBD4592-E162-40C9-9FF7-70A67D52CF14}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestInsights.Importer", "src\TestInsights.Importer\TestInsights.Importer.xproj", "{B6371DFB-35E6-4942-BDE7-B43BE7B17553}"
 EndProject

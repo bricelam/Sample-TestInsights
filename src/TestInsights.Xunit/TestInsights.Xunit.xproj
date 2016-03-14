@@ -8,7 +8,7 @@
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>5cbd4592-e162-40c9-9ff7-70a67d52cf14</ProjectGuid>
-    <RootNamespace>TestInsights.Reporter</RootNamespace>
+    <RootNamespace>TestInsights.Xunit</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">..\..\</OutputPath>
   </PropertyGroup>
