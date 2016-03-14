@@ -29,5 +29,12 @@ namespace TestInsights.Data
         private static TEntity Find<TEntity>(IEnumerable<TEntity> source, Func<TEntity, bool> predicate)
             where TEntity : class
             => source.FirstOrDefault(predicate);
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TestPass>();
+            modelBuilder.Entity<TestFailed>();
+            modelBuilder.Entity<TestSkipped>();
+        }
     }
 }
