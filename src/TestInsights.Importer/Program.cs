@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace TestInsights.Importer
 {
@@ -8,18 +9,14 @@ namespace TestInsights.Importer
     {
         static void Main(string[] args)
         {
-            foreach (var arg in args)
+            var matcher = new Matcher();
+            matcher.AddIncludePatterns(args);
+
+            foreach (var file in matcher.GetResultsInFullPath(Directory.GetCurrentDirectory()))
             {
-                if (!File.Exists(arg))
-                {
-                    Console.WriteLine("File '" + arg + "' does not exist.");
+                Console.WriteLine("Importing '" + file + "'...");
 
-                    continue;
-                }
-
-                Console.WriteLine("Importing '" + arg + "'...");
-
-                using (var reader = XmlReader.Create(arg))
+                using (var reader = XmlReader.Create(file))
                 {
                     // TODO: Process documents conforming to http://xunit.github.io/docs/format-xml-v2.html
                 }
