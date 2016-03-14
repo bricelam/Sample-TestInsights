@@ -1,10 +1,10 @@
 ﻿using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace TestInsights.Reporter
+namespace TestInsights.Xunit
 {
     // TODO: Allow wrapping arbitrary frameworks
-    class InsightTestFramework : XunitTestFramework
+    public class InsightTestFramework : XunitTestFramework
     {
         public InsightTestFramework(IMessageSink messageSink)
             : base(new InsightMessageSink(messageSink))

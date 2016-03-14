@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-[assembly: TestFramework("TestInsights.Reporter.InsightTestFramework", "TestInsights.Xunit")]
+[assembly: TestFramework("TestInsights.Xunit.InsightTestFramework", "TestInsights.Xunit")]
 
 namespace Sample.Tests
 {

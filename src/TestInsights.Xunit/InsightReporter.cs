@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using Xunit.Abstractions;
 
-namespace TestInsights.Reporter
+namespace TestInsights.Xunit
 {
     class InsightReporter : IRunnerReporter
     {

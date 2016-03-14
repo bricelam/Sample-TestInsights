@@ -20,6 +20,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{89F9909B-3AD7-4A53-8631-EDEA94BC787A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Tests", "test\Sample.Tests\Sample.Tests.csproj", "{A16C275E-39A5-4217-8D72-2D22E1681799}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5CBD4592-E162-40C9-9FF7-70A67D52CF14} = {5CBD4592-E162-40C9-9FF7-70A67D52CF14}
+		{615A9EA5-F73A-456C-B663-63B98F95B9E2} = {615A9EA5-F73A-456C-B663-63B98F95B9E2}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -30,14 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="TestInsights.Data">
+      <HintPath>..\..\src\TestInsights.Data\bin\Debug\net451\TestInsights.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="TestInsights.Xunit">
+      <HintPath>..\..\src\TestInsights.Xunit\bin\Debug\net451\TestInsights.Xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SampleTests.cs" />
@@ -45,12 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\TestInsights.Xunit\TestInsights.Xunit.xproj">
-      <Project>{5cbd4592-e162-40c9-9ff7-70a67d52cf14}</Project>
-      <Name>TestInsights.Xunit</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
