@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "MvvmLightLibs": "5.2.0"
   },
   "frameworks": {
     "net46": { }
