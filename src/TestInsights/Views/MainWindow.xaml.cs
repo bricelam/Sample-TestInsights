@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using GalaSoft.MvvmLight.Messaging;
-using TestInsights.Messages;
 
 namespace TestInsights.Views
 {
@@ -9,7 +7,6 @@ namespace TestInsights.Views
         public MainWindow()
         {
             InitializeComponent();
-            Messenger.Default.Register<CloseMessage>(this, m => Close());
         }
     }
 }

@@ -5,13 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestInsights"
         xmlns:vm="clr-namespace:TestInsights.ViewModels"
+        xmlns:v="clr-namespace:TestInsights.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
     <StackPanel>
-        <TextBlock Text="{Binding Message}" />
-        <Button Command="{Binding CloseCommand}">Close</Button>
+        <DatePicker SelectedDate="{Binding Start}" />
+        <DatePicker SelectedDate="{Binding End}" />
+        <TextBox Text="{Binding Search}" />
+        <Button Command="{Binding RefreshCommand}">Refresh</Button>
+        <v:DetailsPanel DataContext="{Binding SelectedItem}" />
     </StackPanel>
 </Window>
