@@ -33,6 +33,7 @@
     <Compile Include="InsightMessageSink.cs" />
     <Compile Include="InsightReporter.cs" />
     <Compile Include="InsightTestFramework.cs" />
+    <Compile Include="InsightTestFrameworkExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

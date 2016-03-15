@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore;
 using TestInsights.Data;
 using Xunit.Abstractions;
 using Xunit.Sdk;
@@ -26,6 +26,8 @@ namespace TestInsights.Xunit
 
         protected override bool Visit(ITestAssemblyStarting assemblyStarting)
         {
+            _db.Database.Migrate();
+
             _currentRun = new TestRun
             {
                 StartTime = assemblyStarting.StartTime,
