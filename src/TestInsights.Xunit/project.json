@@ -1,17 +1,12 @@
 {
-  "version": "1.0.0-*",
   "dependencies": {
-    "TestInsights.Data": "1.0.0-*",
     "xunit.runner.utility": "2.1.0",
     "xunit.extensibility.execution": "2.1.0"
   },
   "frameworks": {
-    "net451": { },
-    "netstandard1.3": {
-      "imports": [ "dotnet5.4", "portable-net452+win81" ],
-      "dependencies": {
-        "NETStandard.Library": "1.0.0-*"
-      }
-    }
+    "net451": { }
+  },
+  "runtimes": {
+    "win": { }
   }
 }
