@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0-*",
+  "description": "TestInsights.Importer.Tests Class Library",
+  "authors": [ "smpatel" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "tools": {
+    "dotnet-test-xunit": "1.0.0-*"
+  },
+  "testRunner": "xunit",
+  "dependencies": {
+    "TestInsights.Importer": "1.0.0-*",
+    "dotnet-test-xunit": "1.0.0-*",
+    "xunit" : "2.1.0"
+  },
+  "content": "SampleRuns/*",
+  "frameworks": {
+    "netstandardapp1.5": {
+      "imports": [ "dnxcore50", "portable-net452+win81" ]
+    }
+  }
+}

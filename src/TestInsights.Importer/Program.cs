@@ -1,25 +1,20 @@
-﻿using System;
-using System.IO;
-using System.Xml;
+﻿using System.IO;
 using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace TestInsights.Importer
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var matcher = new Matcher();
             matcher.AddIncludePatterns(args);
+            // TODO: allow user to specify connection string through args
+            var importer = new XmlOutputImporter();
 
             foreach (var file in matcher.GetResultsInFullPath(Directory.GetCurrentDirectory()))
             {
-                Console.WriteLine("Importing '" + file + "'...");
-
-                using (var reader = XmlReader.Create(file))
-                {
-                    // TODO: Process documents conforming to http://xunit.github.io/docs/format-xml-v2.html
-                }
+                importer.Import(file);
             }
         }
     }

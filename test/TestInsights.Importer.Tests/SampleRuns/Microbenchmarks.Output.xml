@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<assemblies>
+  <assembly name="Microsoft.EntityFrameworkCore.Microbenchmarks.dll" environment="64-bit .NET (unknown version) [collection-per-class, non-parallel]" test-framework="xUnit.net 2.1.0.3179" run-date="2016-03-15" run-time="11:50:46" total="65" passed="61" failed="2" skipped="2" time="18.312" errors="0">
+    <errors />
+    <collection total="4" passed="2" failed="0" skipped="2" name="Test collection for Microsoft.EntityFrameworkCore.Microbenchmarks.InitializationTests" time="1.752">
+      <test name="BuildModel_AdventureWorks [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.InitializationTests" method="BuildModel_AdventureWorks" time="1.7105605" result="Pass" />
+      <test name="CreateAndDisposeUnusedContext [Variation: Warm (1000 instances)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.InitializationTests" method="CreateAndDisposeUnusedContext" time="0.0418284" result="Pass" />
+      <test name="InitializeAndQuery_AdventureWorks [Variation: Warm (100 instances)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.InitializationTests" method="InitializeAndQuery_AdventureWorks" time="0" result="Skip">
+        <reason><![CDATA[AdventureWorks2014 database does not exist on (localdb)\mssqllocaldb. Download the AdventureWorks backup from https://msftdbprodsamples.codeplex.com/downloads/get/880661 and restore it to (localdb)\mssqllocaldb to enable these tests.]]></reason>
+      </test>
+      <test name="InitializeAndSaveChanges_AdventureWorks [Variation: Warm (100 instances)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.InitializationTests" method="InitializeAndSaveChanges_AdventureWorks" time="0" result="Skip">
+        <reason><![CDATA[AdventureWorks2014 database does not exist on (localdb)\mssqllocaldb. Download the AdventureWorks backup from https://msftdbprodsamples.codeplex.com/downloads/get/880661 and restore it to (localdb)\mssqllocaldb to enable these tests.]]></reason>
+      </test>
+    </collection>
+    <collection total="2" passed="2" failed="0" skipped="0" name="Test collection for Microsoft.EntityFrameworkCore.Microbenchmarks.CalibrationTests" time="0.336">
+      <test name="Calibration_100ms [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.CalibrationTests" method="Calibration_100ms" time="0.1048182" result="Pass" />
+      <test name="Calibration_100ms_controlled [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.CalibrationTests" method="Calibration_100ms_controlled" time="0.2316557" result="Pass" />
+    </collection>
+    <collection total="8" passed="8" failed="0" skipped="0" name="Test collection for Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" time="0.390">
+      <test name="SelectAll [Variation: Tracking Off (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" method="SelectAll" time="0.1074899" result="Pass" />
+      <test name="SelectAll [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" method="SelectAll" time="0.0145159" result="Pass" />
+      <test name="SelectComposed [Variation: Tracking Off (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" method="SelectComposed" time="0.1241175" result="Pass" />
+      <test name="SelectComposed [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" method="SelectComposed" time="0.0127603" result="Pass" />
+      <test name="SelectParameterized [Variation: Tracking Off (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" method="SelectParameterized" time="0.0791671" result="Pass" />
+      <test name="SelectParameterized [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" method="SelectParameterized" time="0.0090542" result="Pass" />
+      <test name="StoredProcedure [Variation: Tracking Off (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" method="StoredProcedure" time="0.0322253" result="Pass" />
+      <test name="StoredProcedure [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.RawSqlQueryTests" method="StoredProcedure" time="0.0104561" result="Pass" />
+    </collection>
+    <collection total="10" passed="10" failed="0" skipped="0" name="Test collection for Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" time="0.720">
+      <test name="AddChildren [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="AddChildren" time="0.0689189" result="Pass" />
+      <test name="AddChildren [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="AddChildren" time="0.0647811" result="Pass" />
+      <test name="AddParents [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="AddParents" time="0.0815623" result="Pass" />
+      <test name="AddParents [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="AddParents" time="0.0721839" result="Pass" />
+      <test name="AttachChildren [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="AttachChildren" time="0.05164" result="Pass" />
+      <test name="AttachChildren [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="AttachChildren" time="0.0687482" result="Pass" />
+      <test name="AttachParents [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="AttachParents" time="0.0651019" result="Pass" />
+      <test name="AttachParents [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="AttachParents" time="0.0573454" result="Pass" />
+      <test name="QueryChildren [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="QueryChildren" time="0.1060339" result="Pass" />
+      <test name="QueryParents [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.FixupTests" method="QueryParents" time="0.0836033" result="Pass" />
+    </collection>
+    <collection total="14" passed="14" failed="0" skipped="0" name="Test collection for Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" time="0.933">
+      <test name="Count [Variation: Default (100 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="Count" time="0.0327697" result="Pass" />
+      <test name="GroupBy [Variation: Default (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="GroupBy" time="0.1203358" result="Pass" />
+      <test name="Include [Variation: Tracking Off (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="Include" time="0.2070765" result="Pass" />
+      <test name="Include [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="Include" time="0.1606295" result="Pass" />
+      <test name="LoadAll [Variation: Tracking Off (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="LoadAll" time="0.0518983" result="Pass" />
+      <test name="LoadAll [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="LoadAll" time="0.0100067" result="Pass" />
+      <test name="OrderBy [Variation: Tracking Off (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="OrderBy" time="0.0638047" result="Pass" />
+      <test name="OrderBy [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="OrderBy" time="0.0135519" result="Pass" />
+      <test name="ProjectionAcrossNavigation [Variation: Default (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="ProjectionAcrossNavigation" time="0.1420168" result="Pass" />
+      <test name="Projection [Variation: Default (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="Projection" time="0.0393758" result="Pass" />
+      <test name="SkipTake [Variation: Tracking Off (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="SkipTake" time="0.039762" result="Pass" />
+      <test name="SkipTake [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="SkipTake" time="0.0109678" result="Pass" />
+      <test name="Where [Variation: Tracking Off (10 queries)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="Where" time="0.027244" result="Pass" />
+      <test name="Where [Variation: Tracking On (1 query)]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.SimpleQueryTests" method="Where" time="0.0134175" result="Pass" />
+    </collection>
+    <collection total="3" passed="3" failed="0" skipped="0" name="Test collection for Microsoft.EntityFrameworkCore.Microbenchmarks.Query.FuncletizationTests" time="0.136">
+      <test name="NewQueryInstance [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.FuncletizationTests" method="NewQueryInstance" time="0.0510446" result="Pass" />
+      <test name="SameQueryInstance [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.FuncletizationTests" method="SameQueryInstance" time="0.0348267" result="Pass" />
+      <test name="ValueFromObject [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.Query.FuncletizationTests" method="ValueFromObject" time="0.050246" result="Pass" />
+    </collection>
+    <collection total="16" passed="16" failed="0" skipped="0" name="Test collection for Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" time="0.388">
+      <test name="Add [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="Add" time="0.0600129" result="Pass" />
+      <test name="Add [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="Add" time="0.0318552" result="Pass" />
+      <test name="AddRange [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="AddRange" time="0.0302297" result="Pass" />
+      <test name="AddRange [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="AddRange" time="0.0303399" result="Pass" />
+      <test name="Attach [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="Attach" time="0.0197057" result="Pass" />
+      <test name="Attach [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="Attach" time="0.0184038" result="Pass" />
+      <test name="AttachRange [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="AttachRange" time="0.0191027" result="Pass" />
+      <test name="AttachRange [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="AttachRange" time="0.0188602" result="Pass" />
+      <test name="Remove [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="Remove" time="0.0217565" result="Pass" />
+      <test name="Remove [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="Remove" time="0.0179991" result="Pass" />
+      <test name="RemoveRange [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="RemoveRange" time="0.0188112" result="Pass" />
+      <test name="RemoveRange [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="RemoveRange" time="0.0193509" result="Pass" />
+      <test name="Update [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="Update" time="0.0209521" result="Pass" />
+      <test name="Update [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="Update" time="0.0197231" result="Pass" />
+      <test name="UpdateRange [Variation: AutoDetectChanges Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="UpdateRange" time="0.0203306" result="Pass" />
+      <test name="UpdateRange [Variation: AutoDetectChanges On]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.ChangeTracker.DbSetOperationTests" method="UpdateRange" time="0.0202626" result="Pass" />
+    </collection>
+    <collection total="8" passed="6" failed="2" skipped="0" name="Test collection for Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" time="11.670">
+      <test name="Delete [Variation: Batching Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" method="Delete" time="2.8277935" result="Pass" />
+      <test name="Delete [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" method="Delete" time="2.1648491" result="Pass" />
+      <test name="Insert [Variation: Batching Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" method="Insert" time="1.7448136" result="Pass" />
+      <test name="Insert [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" method="Insert" time="2.1460526" result="Pass" />
+      <test name="Mixed [Variation: Batching Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" method="Mixed" time="1.0067464" result="Pass" />
+      <test name="Mixed [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" method="Mixed" time="1.7531439" result="Pass" />
+      <test name="Update [Variation: Batching Off]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" method="Update" time="0.0168909" result="Fail">
+        <failure exception-type="System.NotSupportedException">
+          <message><![CDATA[System.NotSupportedException : The property 'CustomerId' on entity type 'Customer' is part of a key and so cannot be modified or marked as modified.]]></message>
+          <stack-trace><![CDATA[   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetPropertyModified(IProperty property, Boolean changeState, Boolean isModified) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\InternalEntityEntry.cs:line 201
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.ChangeDetector.DetectPropertyChanges(InternalEntityEntry entry) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\ChangeDetector.cs:line 94
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.ChangeDetector.DetectChanges(InternalEntityEntry entry) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\ChangeDetector.cs:line 76
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.ChangeDetector.DetectChanges(IStateManager stateManager) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\ChangeDetector.cs:line 70
+   at Microsoft.EntityFrameworkCore.DbContext.TryDetectChanges(IStateManager stateManager) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\DbContext.cs:line 266
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\DbContext.cs:line 244
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges() in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\DbContext.cs:line 222
+   at Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests.Update(IMetricCollector collector, Boolean disableBatching) in D:\EntityFramework\test\Microsoft.EntityFrameworkCore.Microbenchmarks\UpdatePipeline\SimpleUpdatePipelineTests.cs:line 58]]></stack-trace>
+        </failure>
+      </test>
+      <test name="Update [Variation: Default]" type="Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests" method="Update" time="0.0097332" result="Fail">
+        <failure exception-type="System.NotSupportedException">
+          <message><![CDATA[System.NotSupportedException : The property 'CustomerId' on entity type 'Customer' is part of a key and so cannot be modified or marked as modified.]]></message>
+          <stack-trace><![CDATA[   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetPropertyModified(IProperty property, Boolean changeState, Boolean isModified) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\InternalEntityEntry.cs:line 201
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.ChangeDetector.DetectPropertyChanges(InternalEntityEntry entry) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\ChangeDetector.cs:line 94
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.ChangeDetector.DetectChanges(InternalEntityEntry entry) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\ChangeDetector.cs:line 76
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.ChangeDetector.DetectChanges(IStateManager stateManager) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\ChangeDetector.cs:line 70
+   at Microsoft.EntityFrameworkCore.DbContext.TryDetectChanges(IStateManager stateManager) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\DbContext.cs:line 266
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\DbContext.cs:line 244
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges() in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\DbContext.cs:line 222
+   at Microsoft.EntityFrameworkCore.Microbenchmarks.UpdatePipeline.SimpleUpdatePipelineTests.Update(IMetricCollector collector, Boolean disableBatching) in D:\EntityFramework\test\Microsoft.EntityFrameworkCore.Microbenchmarks\UpdatePipeline\SimpleUpdatePipelineTests.cs:line 58]]></stack-trace>
+        </failure>
+      </test>
+    </collection>
+  </assembly>
+</assemblies>
