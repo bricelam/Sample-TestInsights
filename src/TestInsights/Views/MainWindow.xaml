@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestInsights"
+        xmlns:m="clr-namespace:TestInsights.Models"
         xmlns:vm="clr-namespace:TestInsights.ViewModels"
         xmlns:v="clr-namespace:TestInsights.Views"
         mc:Ignorable="d"
@@ -12,10 +13,24 @@
         <vm:MainViewModel />
     </Window.DataContext>
     <StackPanel>
-        <DatePicker SelectedDate="{Binding Start}" />
-        <DatePicker SelectedDate="{Binding End}" />
-        <TextBox Text="{Binding Search}" />
-        <Button Command="{Binding RefreshCommand}">Refresh</Button>
-        <v:DetailsPanel DataContext="{Binding SelectedItem}" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Search:</TextBlock>
+            <TextBox Text="{Binding Search}" />
+            <TextBlock>Start:</TextBlock>
+            <DatePicker SelectedDate="{Binding Start}" />
+            <TextBlock>End:</TextBlock>
+            <DatePicker SelectedDate="{Binding End}" />
+            <Button Command="{Binding RefreshCommand}">Refresh</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <ListBox Name="_testsListBox" ItemsSource="{Binding Tests}" SelectedItem="{Binding SelectedItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="m:Test">
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox >
+            <v:DetailsPanel DataContext="{Binding SelectedItem}" />
+        </StackPanel>
     </StackPanel>
 </Window>

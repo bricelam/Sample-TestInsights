@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace TestInsights.Data
 {
@@ -32,7 +33,7 @@ namespace TestInsights.Data
                 ?? Find(Set<TEntity>(), predicate);
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite(_connectionString);
+            => options.UseSqlite(_connectionString).UseLoggerFactory(new LoggerFactory().AddConsole());
 
         private static TEntity Find<TEntity>(IEnumerable<TEntity> source, Func<TEntity, bool> predicate)
             where TEntity : class

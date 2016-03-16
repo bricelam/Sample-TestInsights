@@ -17,11 +17,12 @@ namespace TestInsights.Importer
         public XmlOutputImporter(string connectionString)
         {
             _db = new InsightContext(connectionString);
-            _db.Database.EnsureCreated();
         }
 
         public virtual void Import(string fileName)
         {
+            _db.Database.EnsureCreated();
+
             using (var reader = XmlReader.Create(fileName, new XmlReaderSettings { IgnoreWhitespace = true }))
             {
                 var assembly = String.Empty;

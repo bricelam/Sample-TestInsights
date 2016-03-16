@@ -6,5 +6,19 @@
              xmlns:local="clr-namespace:TestInsights.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <TextBlock Text="{Binding }" />
+    <StackPanel>
+        <TextBlock Text="{Binding Assembly}" />
+        <TextBlock Text="{Binding Class}" />
+        <TextBlock Text="{Binding Name}" />
+        <ListBox ItemsSource="{Binding TestResults}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding StartTime}" />
+                        <TextBlock Text="{Binding ExecutionTime}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
 </UserControl>
