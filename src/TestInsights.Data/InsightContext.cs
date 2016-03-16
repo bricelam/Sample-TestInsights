@@ -8,16 +8,15 @@ namespace TestInsights.Data
 {
     public class InsightContext : DbContext
     {
-        private static readonly string _defaultconnectionString = "" +
-            new SqliteConnectionStringBuilder
-            {
-                DataSource = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\.testInsights")
-            };
-
         private readonly string _connectionString;
 
         public InsightContext()
         {
+            _connectionString = "" +
+                new SqliteConnectionStringBuilder
+                {
+                    DataSource = Environment.ExpandEnvironmentVariables(@"%USERPROFILE%\.testInsights")
+                };
         }
 
         public InsightContext(string connectionString)
@@ -25,9 +24,7 @@ namespace TestInsights.Data
             _connectionString = connectionString;
         }
 
-        public DbSet<Test> Tests { get; set; }
         public DbSet<TestResult> TestResults { get; set; }
-        public DbSet<TestRun> TestRuns { get; set; }
 
         public TEntity Find<TEntity>(Func<TEntity, bool> predicate)
             where TEntity : class
@@ -35,7 +32,7 @@ namespace TestInsights.Data
                 ?? Find(Set<TEntity>(), predicate);
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite(_connectionString ?? _defaultconnectionString);
+            => options.UseSqlite(_connectionString);
 
         private static TEntity Find<TEntity>(IEnumerable<TEntity> source, Func<TEntity, bool> predicate)
             where TEntity : class
@@ -43,9 +40,10 @@ namespace TestInsights.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TestPass>();
-            modelBuilder.Entity<TestFailed>();
-            modelBuilder.Entity<TestSkipped>();
+            modelBuilder.Entity<TestResult>().HasKey(r => new { r.Assembly, r.Class, r.Name, r.StartTime });
+            modelBuilder.Entity<TestPassedResult>();
+            modelBuilder.Entity<TestFailedResult>();
+            modelBuilder.Entity<TestSkippedResult>();
         }
     }
 }

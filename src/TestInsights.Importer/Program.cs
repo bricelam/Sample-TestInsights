@@ -1,21 +1,26 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace TestInsights.Importer
 {
-    public class Program
+    internal class Program
     {
-        public static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var matcher = new Matcher();
             matcher.AddIncludePatterns(args);
-            // TODO: allow user to specify connection string through args
+
             var importer = new XmlOutputImporter();
 
             foreach (var file in matcher.GetResultsInFullPath(Directory.GetCurrentDirectory()))
             {
+                Console.WriteLine("Importing '" + file + "'...");
+
                 importer.Import(file);
             }
+
+            Console.WriteLine("Done.");
         }
     }
 }

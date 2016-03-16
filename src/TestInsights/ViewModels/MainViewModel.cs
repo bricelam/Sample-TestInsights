@@ -14,7 +14,7 @@ namespace TestInsights.ViewModels
         private DateTime _start = DateTime.Today.AddMonths(-1);
         private DateTime _end = DateTime.Today;
         private object _selectedItem = "Hello, World!";
-        private IEnumerable<Test> _tests = new ObservableCollection<Test>();
+        private IEnumerable<TestResult> _testResults = new ObservableCollection<TestResult>();
 
         public MainViewModel()
         {
@@ -39,10 +39,10 @@ namespace TestInsights.ViewModels
             set { Set(() => End, ref _end, value); }
         }
 
-        public IEnumerable<Test> Tests
+        public IEnumerable<TestResult> TestResults
         {
-            get { return _tests; }
-            set { Set(() => Tests, ref _tests, value); }
+            get { return _testResults; }
+            set { Set(() => TestResults, ref _testResults, value); }
         }
 
         public object SelectedItem

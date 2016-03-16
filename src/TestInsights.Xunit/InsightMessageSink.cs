@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using TestInsights.Data;
 using Xunit.Abstractions;
 using Xunit.Sdk;
@@ -7,14 +8,24 @@ namespace TestInsights.Xunit
 {
     class InsightMessageSink : TestMessageVisitor
     {
-        private readonly IMessageSink _messageSink;
-        private readonly InsightContext _db = new InsightContext();
+        private static volatile bool _migrated;
+        private static object _migrateSync = new object();
 
-        private TestRun _currentRun;
+        private readonly IMessageSink _messageSink;
+        private readonly InsightContext _db;
+
+        private DateTime _currentStartTime;
 
         public InsightMessageSink(IMessageSink messageSink)
         {
             _messageSink = messageSink;
+            _db = new InsightContext();
+        }
+
+        public InsightMessageSink(IMessageSink messageSink, string connectionString)
+        {
+            _messageSink = messageSink;
+            _db = new InsightContext(connectionString);
         }
 
         public override bool OnMessage(IMessageSinkMessage message)
@@ -26,56 +37,60 @@ namespace TestInsights.Xunit
 
         protected override bool Visit(ITestAssemblyStarting assemblyStarting)
         {
-            _db.Database.Migrate();
+            EnsureMigrated();
 
-            _currentRun = new TestRun
-            {
-                StartTime = assemblyStarting.StartTime,
-                TestEnvironment = assemblyStarting.TestEnvironment
-            };
-
-            return true;
-        }
-
-        protected override bool Visit(ITestAssemblyFinished assemblyFinished)
-        {
-            _currentRun = null;
+            _currentStartTime = assemblyStarting.StartTime;
 
             return true;
         }
 
         protected override bool Visit(ITestSkipped testSkipped)
-            => Add(testSkipped, new Data.TestSkipped { Reason = testSkipped.Reason });
+            => Add(testSkipped, new TestSkippedResult { Reason = testSkipped.Reason });
 
         protected override bool Visit(ITestPassed testPassed)
-            => Add(testPassed, new TestPass());
+            => Add(testPassed, new TestPassedResult());
 
         protected override bool Visit(ITestFailed testFailed)
             => Add(
                 testFailed,
-                new Data.TestFailed
+                new TestFailedResult
                 {
                     ExceptionType = testFailed.ExceptionTypes[0],
                     Message = testFailed.Messages[0],
                     StackTrace = testFailed.StackTraces[0]
                 });
 
+        protected override bool Visit(ITestAssemblyFinished assemblyFinished)
+        {
+            _db.SaveChanges();
+
+            return true;
+        }
+
+        private void EnsureMigrated()
+        {
+            if (!_migrated)
+            {
+                lock (_migrateSync)
+                {
+                    if (!_migrated)
+                    {
+                        _db.Database.Migrate();
+                        _migrated = true;
+                    }
+                }
+            }
+        }
+
         private bool Add(ITestResultMessage message, TestResult testResult)
         {
+            testResult.Assembly = message.TestAssembly.Assembly.Name;
+            testResult.Class = message.TestClass.Class.Name;
+            testResult.Name = message.Test.DisplayName;
+            testResult.StartTime = _currentStartTime;
             testResult.ExecutionTime = message.ExecutionTime;
-            testResult.TestRun = _currentRun;
-            testResult.Test = _db.Find<Test>(t => t.DisplayName == message.Test.DisplayName)
-                ?? new Test
-                {
-                    Assembly = message.TestAssembly.Assembly.Name,
-                    Collection = message.TestCollection.DisplayName,
-                    Class = message.TestClass.Class.Name,
-                    Method = message.TestMethod.Method.Name,
-                    DisplayName = message.TestCase.DisplayName
-                };
 
             _db.Add(testResult);
-            _db.SaveChanges();
 
             return true;
         }

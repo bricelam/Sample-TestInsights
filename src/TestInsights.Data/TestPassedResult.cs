@@ -1,6 +1,6 @@
 ﻿namespace TestInsights.Data
 {
-    public class TestPass : TestResult
+    public class TestPassedResult : TestResult
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TestInsights.Data
 {
-    public class TestFailed : TestResult
+    public class TestFailedResult : TestResult
     {
         public string ExceptionType { get; set; }
         public string Message { get; set; }

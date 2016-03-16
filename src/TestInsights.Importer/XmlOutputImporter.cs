@@ -1,86 +1,64 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
+using System.IO;
 using System.Xml;
 using TestInsights.Data;
 
 namespace TestInsights.Importer
 {
-    public class XmlOutputImporter
+    internal class XmlOutputImporter
     {
-        private readonly string _connectionString;
+        private readonly InsightContext _db;
 
         public XmlOutputImporter()
         {
+            _db = new InsightContext();
         }
 
         public XmlOutputImporter(string connectionString)
         {
-            _connectionString = connectionString;
+            _db = new InsightContext(connectionString);
         }
 
         public virtual void Import(string fileName)
         {
-            LogOutput("Importing '" + fileName + "'...");
-
             using (var reader = XmlReader.Create(fileName, new XmlReaderSettings { IgnoreWhitespace = true }))
             {
-                using (var context = CreateContext())
+                var assembly = String.Empty;
+                var currentStartTime = default(DateTime);
+                while (reader.Read())
                 {
-                    var assembly = "";
-                    var collection = "";
-                    TestRun currentTestRun = null;
-                    while (reader.Read())
+                    if (reader.IsStartElement())
                     {
-                        if (reader.IsStartElement())
+                        switch (reader.Name)
                         {
-                            switch (reader.Name)
-                            {
-                                case "assembly":
-                                    assembly = reader["name"];
-                                    currentTestRun = new TestRun
-                                    {
-                                        StartTime = DateTime.Parse(reader["run-date"] + " " + reader["run-time"]),
-                                        TestEnvironment = reader["environment"]
-                                    };
-                                    context.TestRuns.Add(currentTestRun);
-                                    break;
-                                case "collection":
-                                    collection = reader["name"];
-                                    break;
-                                case "test":
-                                    var testName = reader["name"];
-                                    var test = context.Find<Test>(t => t.DisplayName == testName);
-                                    if (test == null)
-                                    {
-                                        test = new Test
-                                        {
-                                            Assembly = assembly,
-                                            Class = reader["type"],
-                                            Collection = collection,
-                                            DisplayName = testName,
-                                            Method = reader["method"]
-                                        };
-                                        context.Tests.Add(test);
-                                    }
-                                    var executionTime = reader["time"] ?? "0";
-                                    var testResult = ProcessTestResult(reader);
-                                    testResult.Test = test;
-                                    testResult.TestRun = currentTestRun;
-                                    testResult.ExecutionTime = decimal.Parse(executionTime);
-                                    context.TestResults.Add(testResult);
-                                    break;
-                            }
+                            case "assembly":
+                                assembly = Path.GetFileNameWithoutExtension(reader["name"]);
+                                currentStartTime = DateTime.Parse(reader["run-date"] + " " + reader["run-time"]);
+                                break;
+
+                            case "test":
+                                var testName = reader["name"];
+                                var type = reader["type"];
+                                var time = reader["time"];
+                                var testResult = ProcessTestResult(reader);
+                                testResult.Assembly = assembly;
+                                testResult.Class = type;
+                                testResult.Name = testName;
+                                testResult.StartTime = currentStartTime;
+
+                                if (time != null)
+                                {
+                                    testResult.ExecutionTime = decimal.Parse(time);
+                                }
+
+                                _db.TestResults.Add(testResult);
+                                break;
                         }
                     }
-                    context.SaveChanges();
                 }
+                _db.SaveChanges();
             }
-
-            LogOutput("Import finished.");
         }
-
-        public virtual InsightContext CreateContext() => _connectionString != null ? new InsightContext(_connectionString) : new InsightContext();
 
         private TestResult ProcessTestResult(XmlReader reader)
         {
@@ -88,9 +66,9 @@ namespace TestInsights.Importer
             switch (result)
             {
                 case "Pass":
-                    return new TestPass();
+                    return new TestPassedResult();
                 case "Fail":
-                    var testFailed = new TestFailed();
+                    var testFailed = new TestFailedResult();
                     while (reader.Read())
                     {
                         if (reader.IsStartElement())
@@ -113,7 +91,7 @@ namespace TestInsights.Importer
                     }
                     return testFailed;
                 case "Skip":
-                    var testSkipped = new TestSkipped();
+                    var testSkipped = new TestSkippedResult();
                     if (reader.ReadToDescendant("reason"))
                     {
                         testSkipped.Reason = reader.ReadElementContentAsString();
@@ -121,11 +99,6 @@ namespace TestInsights.Importer
                     return testSkipped;
             }
             return null;
-        }
-
-        public virtual void LogOutput(string message)
-        {
-            //Console.WriteLine(message);
         }
     }
 }

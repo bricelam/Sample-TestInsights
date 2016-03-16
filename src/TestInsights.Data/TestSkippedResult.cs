@@ -1,6 +1,6 @@
 ﻿namespace TestInsights.Data
 {
-    public class TestSkipped : TestResult
+    public class TestSkippedResult : TestResult
     {
         public string Reason { get; set; }
     }

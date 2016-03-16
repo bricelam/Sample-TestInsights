@@ -7,7 +7,7 @@
     <ProjectGuid>{E9B6FFE3-99A3-4CBB-8B01-DF5902A8C29E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestInsights.Importer.Tests</RootNamespace>
+    <RootNamespace>TestInsights.Importer</RootNamespace>
     <AssemblyName>TestInsights.Importer.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

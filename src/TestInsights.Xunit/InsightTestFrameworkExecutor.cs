@@ -15,7 +15,10 @@ namespace TestInsights.Xunit
         {
         }
 
-        protected override void RunTestCases(IEnumerable<IXunitTestCase> testCases, IMessageSink executionMessageSink, ITestFrameworkExecutionOptions executionOptions)
+        protected override void RunTestCases(
+            IEnumerable<IXunitTestCase> testCases,
+            IMessageSink executionMessageSink,
+            ITestFrameworkExecutionOptions executionOptions)
             => base.RunTestCases(testCases, new InsightMessageSink(executionMessageSink), executionOptions);
     }
 }
