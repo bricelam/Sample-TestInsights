@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "xunit.runner.utility": "2.1.0",
-    "xunit.extensibility.execution": "2.1.0"
+    "xunit.extensibility.execution": "2.1.0",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-*"
   },
   "frameworks": {
     "net451": { }

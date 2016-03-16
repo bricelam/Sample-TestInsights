@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
-    "Microsoft.Extensions.FileSystemGlobbing": "1.0.0-*"
+    "Microsoft.Extensions.FileSystemGlobbing": "1.0.0-*",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-*"
   },
   "frameworks": {
     "net46": { }
