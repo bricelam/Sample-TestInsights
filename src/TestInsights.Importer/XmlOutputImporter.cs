@@ -17,6 +17,7 @@ namespace TestInsights.Importer
         public XmlOutputImporter(string connectionString)
         {
             _db = new InsightContext(connectionString);
+            _db.Database.EnsureCreated();
         }
 
         public virtual void Import(string fileName)

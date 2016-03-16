@@ -75,7 +75,7 @@ namespace TestInsights.Xunit
                 {
                     if (!_migrated)
                     {
-                        _db.Database.Migrate();
+                        _db.Database.EnsureCreated();
                         _migrated = true;
                     }
                 }
