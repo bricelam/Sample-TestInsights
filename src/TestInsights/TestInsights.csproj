@@ -144,7 +144,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Test.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="ViewModels\DetailsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\DetailsPanel.xaml.cs">
       <DependentUpon>DetailsPanel.xaml</DependentUpon>

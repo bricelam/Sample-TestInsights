@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using TestInsights.Data;
+using TestInsights.Models;
 using Xunit;
 
 namespace TestInsights.Importer
@@ -30,7 +32,7 @@ namespace TestInsights.Importer
 
             using (var context = CreateContext())
             {
-                var testResults = context.TestResults.ToList();
+                var testResults = context.Results.ToList();
                 Assert.All(testResults, r => Assert.Equal("2016-03-14 03:57:27", r.StartTime.ToString("yyyy-MM-dd hh:mm:ss")));
                 Assert.Equal(39, testResults.Count());
             }
@@ -51,9 +53,9 @@ namespace TestInsights.Importer
 
             using (var context = CreateContext())
             {
-                var firstTestResult = context.TestResults.Single(t => t.Name == "Microsoft.EntityFrameworkCore.InMemory.Tests.InMemoryServiceCollectionExtensionsTest.Repeated_calls_to_add_do_not_modify_collection");
-                Assert.Equal("Microsoft.EntityFrameworkCore.InMemory.Tests.InMemoryServiceCollectionExtensionsTest", firstTestResult.Class);
-                Assert.Equal("Microsoft.EntityFrameworkCore.InMemory.Tests", firstTestResult.Assembly);
+                var firstTestResult = context.Results.Include(r => r.Test).Single(t => t.Test.Name == "Microsoft.EntityFrameworkCore.InMemory.Tests.InMemoryServiceCollectionExtensionsTest.Repeated_calls_to_add_do_not_modify_collection");
+                Assert.Equal("Microsoft.EntityFrameworkCore.InMemory.Tests.InMemoryServiceCollectionExtensionsTest", firstTestResult.Test.Class);
+                Assert.Equal("Microsoft.EntityFrameworkCore.InMemory.Tests", firstTestResult.Test.Assembly);
             }
         }
 
@@ -72,9 +74,9 @@ namespace TestInsights.Importer
 
             using (var context = CreateContext())
             {
-                Assert.Equal(61, context.TestResults.OfType<TestPassedResult>().Count());
-                Assert.Equal(2, context.TestResults.OfType<TestSkippedResult>().Count());
-                Assert.Equal(2, context.TestResults.OfType<TestFailedResult>().Count());
+                Assert.Equal(61, context.Results.OfType<TestPassedResult>().Count());
+                Assert.Equal(2, context.Results.OfType<TestSkippedResult>().Count());
+                Assert.Equal(2, context.Results.OfType<TestFailedResult>().Count());
             }
         }
 
@@ -93,8 +95,8 @@ namespace TestInsights.Importer
 
             using (var context = CreateContext())
             {
-                var skippedTestResult = context.TestResults.OfType<TestSkippedResult>().First();
-                Assert.Equal("InitializeAndQuery_AdventureWorks [Variation: Warm (100 instances)]", skippedTestResult.Name);
+                var skippedTestResult = context.Results.Include(r => r.Test).OfType<TestSkippedResult>().First();
+                Assert.Equal("InitializeAndQuery_AdventureWorks [Variation: Warm (100 instances)]", skippedTestResult.Test.Name);
                 Assert.Equal("AdventureWorks2014 database does not exist on (localdb)\\mssqllocaldb. Download the AdventureWorks backup from https://msftdbprodsamples.codeplex.com/downloads/get/880661 and restore it to (localdb)\\mssqllocaldb to enable these tests.", skippedTestResult.Reason);
             }
         }
@@ -114,8 +116,8 @@ namespace TestInsights.Importer
 
             using (var context = CreateContext())
             {
-                var failedTestResult = context.TestResults.OfType<TestFailedResult>().First();
-                Assert.Equal("Update [Variation: Batching Off]", failedTestResult.Name);
+                var failedTestResult = context.Results.Include(r => r.Test).OfType<TestFailedResult>().First();
+                Assert.Equal("Update [Variation: Batching Off]", failedTestResult.Test.Name);
                 Assert.Equal("System.NotSupportedException", failedTestResult.ExceptionType);
                 Assert.Equal("System.NotSupportedException : The property 'CustomerId' on entity type 'Customer' is part of a key and so cannot be modified or marked as modified.", failedTestResult.Message);
                 Assert.Equal(@"   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetPropertyModified(IProperty property, Boolean changeState, Boolean isModified) in D:\EntityFramework\src\Microsoft.EntityFrameworkCore\ChangeTracking\Internal\InternalEntityEntry.cs:line 201

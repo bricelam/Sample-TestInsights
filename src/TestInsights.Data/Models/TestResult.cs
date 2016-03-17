@@ -1,12 +1,10 @@
 ﻿using System;
 
-namespace TestInsights.Data
+namespace TestInsights.Models
 {
     public abstract class TestResult
     {
-        public string Assembly { get; set; }
-        public string Class { get; set; }
-        public string Name { get; set; }
+        public Test Test { get; set; }
         public DateTime StartTime { get; set; }
         public decimal ExecutionTime { get; set; }
     }

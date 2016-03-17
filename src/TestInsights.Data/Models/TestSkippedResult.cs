@@ -1,4 +1,4 @@
-﻿namespace TestInsights.Data
+﻿namespace TestInsights.Models
 {
     public class TestSkippedResult : TestResult
     {

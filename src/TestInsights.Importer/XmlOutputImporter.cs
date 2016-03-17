@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml;
 using TestInsights.Data;
+using TestInsights.Models;
 
 namespace TestInsights.Importer
 {
@@ -39,13 +40,13 @@ namespace TestInsights.Importer
                                 break;
 
                             case "test":
-                                var testName = reader["name"];
+                                var name = reader["name"];
                                 var type = reader["type"];
                                 var time = reader["time"];
+                                var test = _db.Find<Test>(t => t.Assembly == assembly && t.Class == type && t.Name == name)
+                                    ?? new Test { Assembly = assembly, Class = type, Name = name };
                                 var testResult = ProcessTestResult(reader);
-                                testResult.Assembly = assembly;
-                                testResult.Class = type;
-                                testResult.Name = testName;
+                                testResult.Test = test;
                                 testResult.StartTime = currentStartTime;
 
                                 if (time != null)
@@ -53,7 +54,7 @@ namespace TestInsights.Importer
                                     testResult.ExecutionTime = decimal.Parse(time);
                                 }
 
-                                _db.TestResults.Add(testResult);
+                                _db.Results.Add(testResult);
                                 break;
                         }
                     }

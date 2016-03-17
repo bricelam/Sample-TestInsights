@@ -7,13 +7,11 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-        <TextBlock Text="{Binding Assembly}" />
-        <TextBlock Text="{Binding Class}" />
-        <TextBlock Text="{Binding Name}" />
-        <ListBox ItemsSource="{Binding TestResults}">
+        <ListBox ItemsSource="{Binding Results}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Test.Name}" />
                         <TextBlock Text="{Binding StartTime}" />
                         <TextBlock Text="{Binding ExecutionTime}" />
                     </StackPanel>

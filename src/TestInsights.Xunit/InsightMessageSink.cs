@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using TestInsights.Data;
+using TestInsights.Models;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -84,9 +84,12 @@ namespace TestInsights.Xunit
 
         private bool Add(ITestResultMessage message, TestResult testResult)
         {
-            testResult.Assembly = message.TestAssembly.Assembly.Name;
-            testResult.Class = message.TestClass.Class.Name;
-            testResult.Name = message.Test.DisplayName;
+            var assembly = message.TestAssembly.Assembly.Name;
+            var type = message.TestClass.Class.Name;
+            var name = message.Test.DisplayName;
+            var test = _db.Find<Test>(t => t.Assembly == assembly && t.Class == type && t.Name == name)
+                ?? new Test { Assembly = assembly, Class = type, Name = name };
+            testResult.Test = test;
             testResult.StartTime = _currentStartTime;
             testResult.ExecutionTime = message.ExecutionTime;
 

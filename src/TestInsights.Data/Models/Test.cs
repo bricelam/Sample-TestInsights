@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TestInsights.Data;
 
 namespace TestInsights.Models
 {
@@ -8,6 +7,6 @@ namespace TestInsights.Models
         public string Assembly { get; set; }
         public string Class { get; set; }
         public string Name { get; set; }
-        public ICollection<TestResult> TestResults { get; set; }
+        public ICollection<TestResult> Results { get; } = new List<TestResult>();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using TestInsights.Models;
 
 namespace TestInsights.Data
 {
@@ -25,7 +26,8 @@ namespace TestInsights.Data
             _connectionString = connectionString;
         }
 
-        public DbSet<TestResult> TestResults { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<TestResult> Results { get; set; }
 
         public TEntity Find<TEntity>(Func<TEntity, bool> predicate)
             where TEntity : class
@@ -41,7 +43,8 @@ namespace TestInsights.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TestResult>().HasKey(r => new { r.Assembly, r.Class, r.Name, r.StartTime });
+            modelBuilder.Entity<Test>().HasKey(t => new { t.Assembly, t.Class, t.Name });
+            modelBuilder.Entity<TestResult>().HasKey("TestAssembly", "TestClass", "TestName", "StartTime");
             modelBuilder.Entity<TestPassedResult>();
             modelBuilder.Entity<TestFailedResult>();
             modelBuilder.Entity<TestSkippedResult>();
