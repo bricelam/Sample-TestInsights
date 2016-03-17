@@ -63,9 +63,9 @@ namespace TestInsights.Xunit
             sink.OnMessage(testPassed.Object);
             sink.OnMessage(Mock.Of<ITestAssemblyFinished>());
 
-            var result = _db.Results.Include(r => r.Test).Cast<TestPassedResult>().Single();
-            Assert.Equal("Assembly1", result.Test.Assembly);
-            Assert.Equal("Class1", result.Test.Class);
+            var result = _db.Results.Include(r => r.Test.Class.Assembly).Cast<TestPassedResult>().Single();
+            Assert.Equal("Assembly1", result.Test.Class.Assembly.Name);
+            Assert.Equal("Class1", result.Test.Class.Name);
             Assert.Equal("Method1", result.Test.Name);
             Assert.Equal(startTime, result.StartTime);
             Assert.Equal(3.14m, result.ExecutionTime);

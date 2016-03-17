@@ -26,6 +26,8 @@ namespace TestInsights.Data
             _connectionString = connectionString;
         }
 
+        public DbSet<TestAssembly> Assemblies { get; set; }
+        public DbSet<TestClass> Classes { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestResult> Results { get; set; }
 
@@ -43,8 +45,28 @@ namespace TestInsights.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Test>().HasKey(t => new { t.Assembly, t.Class, t.Name });
-            modelBuilder.Entity<TestResult>().HasKey("TestAssembly", "TestClass", "TestName", "StartTime");
+            modelBuilder.Entity<TestClass>(
+                x =>
+                {
+                    x.Property<string>("AssemblyName");
+                    x.HasKey("AssemblyName", nameof(TestClass.Name));
+                    x.HasOne(c => c.Assembly).WithMany(a => a.Classes).HasForeignKey("AssemblyName");
+                });
+            modelBuilder.Entity<Test>(
+                x =>
+                {
+                    x.Property<string>("AssemblyName");
+                    x.HasKey("AssemblyName", "ClassName", nameof(Test.Name));
+                    x.HasOne(t => t.Class).WithMany(c => c.Tests).HasForeignKey("AssemblyName", "ClassName");
+                });
+            modelBuilder.Entity<TestResult>(
+                x =>
+                {
+                    x.Property<string>("AssemblyName");
+                    x.Property<string>("ClassName");
+                    x.HasKey("AssemblyName", "ClassName", "TestName", nameof(TestResult.StartTime));
+                    x.HasOne(r => r.Test).WithMany(t => t.Results).HasForeignKey("AssemblyName", "ClassName", "TestName");
+                });
             modelBuilder.Entity<TestPassedResult>();
             modelBuilder.Entity<TestFailedResult>();
             modelBuilder.Entity<TestSkippedResult>();

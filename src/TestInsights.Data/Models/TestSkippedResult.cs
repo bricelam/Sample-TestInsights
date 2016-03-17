@@ -2,6 +2,12 @@
 {
     public class TestSkippedResult : TestResult
     {
-        public string Reason { get; set; }
+        private string _reason;
+
+        public string Reason
+        {
+            get { return _reason; }
+            set { Set(nameof(Reason), ref _reason, value); }
+        }
     }
 }

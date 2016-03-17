@@ -53,9 +53,9 @@ namespace TestInsights.Importer
 
             using (var context = CreateContext())
             {
-                var firstTestResult = context.Results.Include(r => r.Test).Single(t => t.Test.Name == "Microsoft.EntityFrameworkCore.InMemory.Tests.InMemoryServiceCollectionExtensionsTest.Repeated_calls_to_add_do_not_modify_collection");
-                Assert.Equal("Microsoft.EntityFrameworkCore.InMemory.Tests.InMemoryServiceCollectionExtensionsTest", firstTestResult.Test.Class);
-                Assert.Equal("Microsoft.EntityFrameworkCore.InMemory.Tests", firstTestResult.Test.Assembly);
+                var firstTestResult = context.Results.Include(r => r.Test.Class.Assembly).Single(t => t.Test.Name == "Repeated_calls_to_add_do_not_modify_collection");
+                Assert.Equal("Microsoft.EntityFrameworkCore.InMemory.Tests.InMemoryServiceCollectionExtensionsTest", firstTestResult.Test.Class.Name);
+                Assert.Equal("Microsoft.EntityFrameworkCore.InMemory.Tests", firstTestResult.Test.Class.Assembly.Name);
             }
         }
 

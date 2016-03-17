@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Microsoft.EntityFrameworkCore;
 using TestInsights.Data;
 using TestInsights.Models;
@@ -13,25 +15,21 @@ namespace TestInsights.ViewModels
     {
         private string _search;
         private DateTime _start = DateTime.Today.AddMonths(-1);
-        private DateTime _end = DateTime.Today.AddDays(1);
-        private Test _selectedItem;
-        private Test[] _tests;
-        private ICollection<Test> _filteredTests = new ObservableCollection<Test>();
+        private DateTime _end = DateTime.Today;
+        private ICollection<TestAssembly> _assemblies = new List<TestAssembly>();
         private DetailsViewModel _detailsViewModel = new DetailsViewModel();
 
         public MainViewModel()
         {
-            if (IsInDesignMode)
+            SelectItemCommand = new RelayCommand<object>(SelectItem);
+
+            if (!IsInDesignMode)
             {
-                _filteredTests.Add(new Test { Name = "Test1" });
-                _filteredTests.Add(new Test { Name = "Test2" });
-                _filteredTests.Add(new Test { Name = "Test3" });
-            }
-            else
-            {
-                QueryTests();
+                Query();
             }
         }
+
+        public ICommand SelectItemCommand { get; }
 
         public string Search
         {
@@ -40,7 +38,7 @@ namespace TestInsights.ViewModels
             {
                 if (Set(() => Search, ref _search, value))
                 {
-                    FilterTests();
+                    Filter();
                 }
             }
         }
@@ -52,7 +50,7 @@ namespace TestInsights.ViewModels
             {
                 if (Set(() => Start, ref _start, value))
                 {
-                    QueryTests();
+                    Query();
                 }
             }
         }
@@ -64,27 +62,12 @@ namespace TestInsights.ViewModels
             {
                 if (Set(() => End, ref _end, value))
                 {
-                    QueryTests();
+                    Query();
                 }
             }
         }
 
-        public IEnumerable<Test> Tests
-        {
-            get { return _filteredTests; }
-        }
-
-        public Test SelectedTest
-        {
-            get { return _selectedItem; }
-            set
-            {
-                if (Set(() => SelectedTest, ref _selectedItem, value))
-                {
-                    QueryDetails();
-                }
-            }
-        }
+        public ICollection<TestAssembly> Assemblies { get; } = new ObservableCollection<TestAssembly>();
 
         public DetailsViewModel DetailsViewModel
         {
@@ -92,49 +75,139 @@ namespace TestInsights.ViewModels
             set { Set(() => DetailsViewModel, ref _detailsViewModel, value); }
         }
 
-        private void QueryTests()
+        public void SelectItem(object item)
         {
+            var results = Enumerable.Empty<TestResult>();
+
+            if (item != null)
+            {
+                using (var db = new InsightContext())
+                {
+                    var end = End.AddDays(1);
+                    var test = item as Test;
+                    if (test != null)
+                    {
+                        results = Enumerable.ToArray(
+                            from r in db.Results
+                            where r.Test.Class.Assembly.Name == test.Class.Assembly.Name
+                                && r.Test.Class.Name == test.Class.Name
+                                && r.Test.Name == test.Name
+                                && r.StartTime >= Start
+                                && r.StartTime < end
+                            select r);
+                    }
+                    else
+                    {
+                        var testClass = item as TestClass;
+                        if (testClass != null)
+                        {
+                            results = Enumerable.ToArray(
+                                from r in db.Results
+                                where r.Test.Class.Assembly.Name == testClass.Assembly.Name
+                                    && r.Test.Class.Name == testClass.Name
+                                    && r.StartTime >= Start
+                                    && r.StartTime < end
+                                select r);
+                        }
+                        else
+                        {
+                            var assembly = item as TestAssembly;
+                            if (assembly != null)
+                            {
+                                results = Enumerable.ToArray(
+                                    from r in db.Results
+                                    where r.Test.Class.Assembly.Name == assembly.Name
+                                        && r.StartTime >= Start
+                                        && r.StartTime < end
+                                    select r);
+                            }
+                        }
+                    }
+                }
+            }
+
+            _detailsViewModel.Results = results;
+        }
+
+        private void Query()
+        {
+            _assemblies.Clear();
+
             using (var db = new InsightContext())
             {
                 db.Database.EnsureCreated();
 
-                _tests = Enumerable.ToArray(
-                    from t in db.Tests.AsNoTracking()
-                    where t.Results.Any(r => r.StartTime >= Start && r.StartTime <= End)
+                var end = _end.AddDays(1);
+                var tests = Enumerable.ToList(
+                    from t in db.Tests.Include(t => t.Class.Assembly)
+                    where t.Results.Any(r => r.StartTime >= Start && r.StartTime < end)
                     select t);
+                _assemblies.AddRange(tests.Select(t => t.Class.Assembly).Distinct());
             }
 
-            FilterTests();
+            Filter();
         }
 
-        private void FilterTests()
+        private void Filter()
         {
-            _filteredTests.Clear();
-            _filteredTests.AddRange(
-                string.IsNullOrEmpty(Search)
-                    ? _tests
-                    : _tests.Where(t => t.Name.ToUpper().Contains(Search.ToUpper())));
-        }
+            Assemblies.Clear();
 
-        private void QueryDetails()
-        {
-            if (SelectedTest == null)
+            if (string.IsNullOrEmpty(Search))
             {
-                _detailsViewModel.Results = Enumerable.Empty<TestResult>();
-
+                Assemblies.AddRange(_assemblies);
                 return;
             }
 
-            using (var db = new InsightContext())
+            var search = Search.ToUpper();
+
+            foreach (var assembly in _assemblies)
             {
-                _detailsViewModel.Results = Enumerable.ToArray(
-                from r in db.Results.AsNoTracking()
-                where
-                    // UNDONE: r.Test == SelectedTest
-                    r.Test.Assembly == SelectedTest.Assembly && r.Test.Class == SelectedTest.Class && r.Test.Name == SelectedTest.Name
-                    && r.StartTime >= Start
-                    && r.StartTime <= End
-                select r);
+                if (assembly.Name.ToUpper().Contains(search))
+                {
+                    Assemblies.Add(assembly);
+
+                    continue;
+                }
+
+                TestAssembly filteredAssembly = null;
+                foreach (var testClass in assembly.Classes)
+                {
+                    if (testClass.Name.ToUpper().Contains(search))
+                    {
+                        if (filteredAssembly == null)
+                        {
+                            filteredAssembly = new TestAssembly { Name = assembly.Name };
+                            Assemblies.Add(filteredAssembly);
+                        }
+
+                        filteredAssembly.Classes.Add(testClass);
+
+                        continue;
+                    }
+
+                    TestClass filteredClass = null;
+                    foreach (var test in testClass.Tests)
+                    {
+                        if (!test.Name.ToUpper().Contains(search))
+                        {
+                            continue;
+                        }
+
+                        if (filteredAssembly == null)
+                        {
+                            filteredAssembly = new TestAssembly { Name = assembly.Name };
+                            Assemblies.Add(filteredAssembly);
+                        }
+
+                        if (filteredClass == null)
+                        {
+                            filteredClass = new TestClass { Assembly = assembly, Name = testClass.Name };
+                            filteredAssembly.Classes.Add(filteredClass);
+                        }
+
+                        filteredClass.Tests.Add(test);
+                    }
+                }
             }
         }
     }

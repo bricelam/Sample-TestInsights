@@ -84,11 +84,26 @@ namespace TestInsights.Xunit
 
         private bool Add(ITestResultMessage message, TestResult testResult)
         {
-            var assembly = message.TestAssembly.Assembly.Name;
-            var type = message.TestClass.Class.Name;
+            var assemblyName = message.TestAssembly.Assembly.Name;
+            var commaIndex = assemblyName.IndexOf(',');
+            if (commaIndex != -1)
+            {
+                assemblyName = assemblyName.Substring(0, commaIndex);
+            }
+
+            var className = message.TestClass.Class.Name;
             var name = message.Test.DisplayName;
-            var test = _db.Find<Test>(t => t.Assembly == assembly && t.Class == type && t.Name == name)
-                ?? new Test { Assembly = assembly, Class = type, Name = name };
+            if (name.StartsWith(className + "."))
+            {
+                name = name.Substring(className.Length + 1);
+            }
+
+            var assembly = _db.Find<Models.TestAssembly>(a => a.Name == assemblyName)
+                ?? _db.Add(new Models.TestAssembly { Name = assemblyName }).Entity;
+            var testClass = _db.Find<Models.TestClass>(c => c.Assembly == assembly && c.Name == className)
+                ?? _db.Add(new Models.TestClass { Assembly = assembly, Name = className }).Entity;
+            var test = _db.Find<Test>(t => t.Class == testClass && t.Name == name)
+                ?? _db.Add(new Test { Class = testClass, Name = name }).Entity;
             testResult.Test = test;
             testResult.StartTime = _currentStartTime;
             testResult.ExecutionTime = message.ExecutionTime;

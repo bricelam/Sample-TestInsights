@@ -4,15 +4,15 @@ using GalaSoft.MvvmLight;
 
 namespace TestInsights.Models
 {
-    public class Test : ObservableObject
+    public class TestClass : ObservableObject
     {
-        private TestClass _class;
+        private TestAssembly _assembly;
         private string _name;
 
-        public TestClass Class
+        public TestAssembly Assembly
         {
-            get { return _class; }
-            set { Set(nameof(Class), ref _class, value); }
+            get { return _assembly; }
+            set { Set(nameof(Assembly), ref _assembly, value); }
         }
 
         public string Name
@@ -21,6 +21,6 @@ namespace TestInsights.Models
             set { Set(nameof(Name), ref _name, value); }
         }
 
-        public ICollection<TestResult> Results { get; } = new ObservableCollection<TestResult>();
+        public ICollection<Test> Tests { get; } = new ObservableCollection<Test>();
     }
 }
