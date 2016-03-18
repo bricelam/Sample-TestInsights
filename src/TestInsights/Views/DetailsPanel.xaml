@@ -12,6 +12,7 @@
         <Rectangle Fill="Black" />
         <ListView Name="_errorsListView"
                   Grid.Row="1"
+                  Margin="0,7,0,0"
                   ItemsSource="{Binding Errors}">
             <ListView.View>
                 <GridView>
