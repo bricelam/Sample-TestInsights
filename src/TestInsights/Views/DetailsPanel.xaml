@@ -14,7 +14,7 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <oxy:PlotView Model="{Binding PlotModel}" Height="200" Visibility="{Binding ShowGraph,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        <oxy:PlotView Model="{Binding PlotModel}" MinHeight="200" Visibility="{Binding ShowGraph,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         <ListView Name="_errorsListView"
                   Grid.Row="1"
                   Margin="0,7,0,0"
