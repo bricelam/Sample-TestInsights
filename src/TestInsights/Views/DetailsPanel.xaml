@@ -2,14 +2,19 @@
              xmlns:m="clr-namespace:TestInsights.Models"
              xmlns:v="clr-namespace:TestInsights.Views"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:TestInsights.ViewModels"
+             xmlns:oxy="http://oxyplot.org/wpf"
              x:Class="TestInsights.Views.DetailsPanel">
+    <Control.DataContext>
+        <vm:DetailsViewModel />
+    </Control.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Rectangle Fill="Black" />
+        <oxy:PlotView Model="{Binding PlotModel}" Height="200" Visibility="{Binding ShowGraph,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         <ListView Name="_errorsListView"
                   Grid.Row="1"
                   Margin="0,7,0,0"
