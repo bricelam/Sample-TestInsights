@@ -92,13 +92,26 @@ namespace TestInsights.ViewModels
             _series.Points.Clear();
             _sizeSeries.Points.Clear();
 
-            _series.Points.AddRange(Results.Select(r => new DataPoint(DateTimeAxis.ToDouble(r.StartTime), decimal.ToDouble(1000 * r.ExecutionTime))).ToList());
+            if (Results.Any())
+            {
 
-            _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Min(r => r.StartTime).AddHours(-1)), 0));
-            _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Max(r => r.StartTime).AddHours(1)), 0));
-            _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Max(r => r.StartTime).AddHours(1)), decimal.ToDouble(1100 * Results.Max(r => r.ExecutionTime))));
+                _series.Points.AddRange(
+                    Results.Select(
+                        r => new DataPoint(DateTimeAxis.ToDouble(r.StartTime), decimal.ToDouble(1000 * r.ExecutionTime)))
+                        .ToList());
 
-            PlotModel.InvalidatePlot(true);
+                _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Min(r => r.StartTime).AddHours(-1)),
+                    0));
+                _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Max(r => r.StartTime).AddHours(1)), 0));
+                _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Max(r => r.StartTime).AddHours(1)),
+                    decimal.ToDouble(1100 * Results.Max(r => r.ExecutionTime))));
+                PlotModel.InvalidatePlot(true);
+            }
+            else
+            {
+                ShowGraph = Visibility.Hidden;
+            }
+
         }
 
         private void InitializePlotModel()
@@ -112,6 +125,7 @@ namespace TestInsights.ViewModels
                 StringFormat = "MM/dd/yy HH:mm",
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
+                IntervalLength = 75
             };
             PlotModel.Axes.Add(dateAxis);
 
