@@ -65,11 +65,12 @@ namespace TestInsights.Data
                     x.Property<string>("AssemblyName");
                     x.Property<string>("ClassName");
                     x.HasKey("AssemblyName", "ClassName", "TestName", nameof(TestResult.StartTime));
+                    x.HasDiscriminator<string>("Result")
+                        .HasValue<TestPassedResult>("Pass")
+                        .HasValue<TestFailedResult>("Fail")
+                        .HasValue<TestSkippedResult>("Skip");
                     x.HasOne(r => r.Test).WithMany(t => t.Results).HasForeignKey("AssemblyName", "ClassName", "TestName");
                 });
-            modelBuilder.Entity<TestPassedResult>();
-            modelBuilder.Entity<TestFailedResult>();
-            modelBuilder.Entity<TestSkippedResult>();
         }
     }
 }
