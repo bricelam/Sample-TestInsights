@@ -1,9 +1,9 @@
-# TestInsights
-
+Test Insights
+=============
 See beyond red and green.
 
-## Capturing Results
-
+Capturing Results
+-----------------
 There are two ways that Test Insights can capture test results.
 
 ### Importer
@@ -24,8 +24,6 @@ Studio and elsewhere.
     "TestInsights.Xunit")]
 ```
 
-## Viewing Results
-
+Viewing Results
+---------------
 The main application allows you to view the captured results.
-
-![Test Insights Screenshot](https://raw.github.com/bricelam/TestInsights/master/media/screenshot.png)
