@@ -94,17 +94,23 @@ namespace TestInsights.ViewModels
 
             if (Results.Any())
             {
+                var groupedResults = Results.GroupBy(r => r.StartTime);
+                var index = 1;
+                decimal upperLimit = 0;
+                decimal lowerLimit = 0;
 
-                _series.Points.AddRange(
-                    Results.Select(
-                        r => new DataPoint(DateTimeAxis.ToDouble(r.StartTime), decimal.ToDouble(1000 * r.ExecutionTime)))
-                        .ToList());
+                foreach (var result in groupedResults)
+                {
+                    var executionTime = result.Sum(r => r.ExecutionTime);
+                    upperLimit = Math.Max(executionTime, upperLimit);
+                    lowerLimit = Math.Min(executionTime, upperLimit);
+                    _series.Points.Add(new DataPoint(index, decimal.ToDouble(1000 * executionTime)));
+                    index++;
+                }
 
-                _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Min(r => r.StartTime).AddHours(-1)),
-                    0));
-                _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Max(r => r.StartTime).AddHours(1)), 0));
-                _sizeSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(Results.Max(r => r.StartTime).AddHours(1)),
-                    decimal.ToDouble(1100 * Results.Max(r => r.ExecutionTime))));
+                _sizeSeries.Points.Add(new DataPoint(0, decimal.ToDouble(900 * upperLimit)));
+                _sizeSeries.Points.Add(new DataPoint(index, decimal.ToDouble(900 * upperLimit)));
+                _sizeSeries.Points.Add(new DataPoint(index, decimal.ToDouble(1100 * upperLimit)));
                 PlotModel.InvalidatePlot(true);
             }
             else
@@ -118,14 +124,14 @@ namespace TestInsights.ViewModels
         {
             _plotModel = new PlotModel();
 
-            var dateAxis = new DateTimeAxis
+            var dateAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom,
-                Title = "Date",
-                StringFormat = "MM/dd/yy HH:mm",
+                Title = "Test run",
                 MajorGridlineStyle = LineStyle.Solid,
                 MinorGridlineStyle = LineStyle.Dot,
-                IntervalLength = 75
+                MajorStep = 1,
+                MinorStep = 1
             };
             PlotModel.Axes.Add(dateAxis);
 
